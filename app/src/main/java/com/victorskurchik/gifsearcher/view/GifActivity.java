@@ -5,10 +5,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.victorskurchik.gifsearcher.R;
+import com.victorskurchik.gifsearcher.data.GifFactory;
 import com.victorskurchik.gifsearcher.databinding.GifActivityBinding;
 import com.victorskurchik.gifsearcher.viewmodel.GifViewModel;
 
@@ -25,7 +29,6 @@ public class GifActivity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
 
         initDataBinding();
-//        setSupportActionBar(gifActivityBinding.toolbar);
         setupListGifView(gifActivityBinding.listGif);
         setupObserver(gifViewModel);
     }
@@ -55,20 +58,35 @@ public class GifActivity extends AppCompatActivity implements Observer {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
+
+        MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) myActionMenuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                gifViewModel.clearGifsDataSet();
+                gifViewModel.fetchGifList(GifFactory.getSearchGifsQueryUrl(query));
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_search) {
-            startSearchActionView();
+//            gifViewModel.gifFab.set(View.GONE);
             return true;
         }
-        return super.onOptionsItemSelected(item);
-    }
 
-    private void startSearchActionView() {
-//        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(GifFactory.PROJECT_URL)));
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

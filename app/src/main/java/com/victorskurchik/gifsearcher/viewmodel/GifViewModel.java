@@ -26,6 +26,7 @@ public class GifViewModel extends Observable {
     public ObservableInt gifProgress;
     public ObservableInt gifRecycler;
     public ObservableInt gifLabel;
+    public ObservableInt gifFab;
     public ObservableField<String> messageLabel;
 
     private List<GifResult> gifList;
@@ -38,26 +39,28 @@ public class GifViewModel extends Observable {
         gifProgress = new ObservableInt(View.GONE);
         gifRecycler = new ObservableInt(View.GONE);
         gifLabel = new ObservableInt(View.VISIBLE);
+        gifFab = new ObservableInt(View.VISIBLE);
         messageLabel = new ObservableField<>(context.getString(R.string.default_loading_gif));
     }
 
     public void onClickFabLoad(View view) {
         initializeViews();
-        fetchGifList();
+        fetchGifList(GifFactory.getTrendingGifsQueryUrl());
     }
 
     public void initializeViews() {
         gifLabel.set(View.GONE);
         gifRecycler.set(View.GONE);
         gifProgress.set(View.VISIBLE);
+        gifFab.set(View.GONE);
     }
 
-    public void fetchGifList() {
+    public void fetchGifList(String queryUrl) {
 
         GifApplication gifApplication = GifApplication.create(context);
-        GifService gifService = (GifService) gifApplication.getGifService();
+        GifService gifService = gifApplication.getGifService();
 
-        Disposable disposable = gifService.fetchGifs(GifFactory.TRENDING_GIFS_URL)
+        Disposable disposable = gifService.fetchGifs(queryUrl)
                 .subscribeOn(gifApplication.subscribeScheduler())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<GifResponse>() {
@@ -67,6 +70,7 @@ public class GifViewModel extends Observable {
                         gifProgress.set(View.GONE);
                         gifLabel.set(View.GONE);
                         gifRecycler.set(View.VISIBLE);
+                        gifFab.set(View.VISIBLE);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -75,14 +79,21 @@ public class GifViewModel extends Observable {
                         gifProgress.set(View.GONE);
                         gifLabel.set(View.VISIBLE);
                         gifRecycler.set(View.GONE);
+                        gifFab.set(View.VISIBLE);
                     }
                 });
 
         compositeDisposable.add(disposable);
     }
 
-    private void changeGifsDataSet(List<GifResult>  gifResults) {
+    private void changeGifsDataSet(List<GifResult> gifResults) {
         gifList.addAll(gifResults);
+        setChanged();
+        notifyObservers();
+    }
+
+    public void clearGifsDataSet() {
+        gifList.clear();
         setChanged();
         notifyObservers();
     }

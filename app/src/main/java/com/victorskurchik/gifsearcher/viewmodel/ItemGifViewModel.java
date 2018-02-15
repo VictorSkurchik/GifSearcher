@@ -29,7 +29,12 @@ public class ItemGifViewModel extends BaseObservable {
         return gifResult.images;
     }
 
-    @BindingAdapter("imageUrl") public static void setImageUrl(ImageView imageView, String url) {
+    public String getImageUrl() {
+        return gifResult.images.original.url;
+    }
+
+    @BindingAdapter("imageUrl")
+    public static void setImageUrl(ImageView imageView, String url) {
         Glide.with(imageView.getContext()).load(url).into(imageView);
     }
 
