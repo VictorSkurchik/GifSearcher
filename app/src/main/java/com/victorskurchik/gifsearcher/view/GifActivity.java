@@ -39,6 +39,7 @@ public class GifActivity extends AppCompatActivity implements Observer {
         gifActivityBinding.setMainViewModel(gifViewModel);
     }
 
+
     private void setupListGifView(RecyclerView recyclerView) {
         GifAdapter adapter = new GifAdapter();
         recyclerView.setAdapter(adapter);

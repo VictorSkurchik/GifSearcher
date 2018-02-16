@@ -11,4 +11,7 @@ public class GifResult implements Serializable {
 
     @SerializedName("images")
     public GifUrlSet images;
+
+    @SerializedName("title")
+    public String title;
 }

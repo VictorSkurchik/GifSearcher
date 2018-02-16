@@ -6,6 +6,8 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.victorskurchik.gifsearcher.R;
 import com.victorskurchik.gifsearcher.databinding.GifDetailActivityBinding;
@@ -18,11 +20,22 @@ public class GifDetailActivity extends AppCompatActivity {
 
     private GifDetailActivityBinding gifDetailActivityBinding;
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         gifDetailActivityBinding =
                 DataBindingUtil.setContentView(this, R.layout.gif_detail_activity);
-//        setSupportActionBar(gifDetailActivityBinding.toolbar);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                onBackPressed();
+            }
+        });
         displayHomeAsUpEnabled();
         getExtrasFromIntent();
     }
@@ -42,8 +55,8 @@ public class GifDetailActivity extends AppCompatActivity {
 
     private void getExtrasFromIntent() {
         GifResult gifResult = (GifResult) getIntent().getSerializableExtra(EXTRA_GIF);
-        GifDetailViewModel gifDetailViewModel = new GifDetailViewModel(gifResult);
+        GifDetailViewModel gifDetailViewModel = new GifDetailViewModel(gifResult, getApplicationContext());
         gifDetailActivityBinding.setGifDetailViewModel(gifDetailViewModel);
-        setTitle("Test");
+        setTitle(gifResult.title);
     }
 }

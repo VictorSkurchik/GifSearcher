@@ -32,7 +32,7 @@ public class ItemGifViewModel extends BaseObservable {
     }
 
     public String getImageUrl() {
-        return gifResult.images.original.url;
+        return gifResult.images.fixed_height.url;
     }
 
     @BindingAdapter({"imageUrl", "progressbar"})

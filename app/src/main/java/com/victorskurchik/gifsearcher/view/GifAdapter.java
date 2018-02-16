@@ -17,7 +17,7 @@ public class GifAdapter extends RecyclerView.Adapter<GifAdapter.GifAdapterViewHo
 
     private List<GifResult> gifList;
 
-    public GifAdapter() {
+    GifAdapter() {
         this.gifList = Collections.emptyList();
     }
 
@@ -39,15 +39,15 @@ public class GifAdapter extends RecyclerView.Adapter<GifAdapter.GifAdapterViewHo
         return gifList.size();
     }
 
-    public void setGifList(List<GifResult> gifList) {
+    void setGifList(List<GifResult> gifList) {
         this.gifList = gifList;
         notifyDataSetChanged();
     }
 
-    public static class GifAdapterViewHolder extends RecyclerView.ViewHolder {
+    static class GifAdapterViewHolder extends RecyclerView.ViewHolder {
         ItemGifBinding mItemGifBinding;
 
-        public GifAdapterViewHolder(ItemGifBinding itemGifBinding) {
+        GifAdapterViewHolder(ItemGifBinding itemGifBinding) {
             super(itemGifBinding.itemGif);
             this.mItemGifBinding = itemGifBinding;
         }

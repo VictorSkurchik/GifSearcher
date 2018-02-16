@@ -11,4 +11,6 @@ public class GifImage implements Serializable {
     public int width;
     @SerializedName("height")
     public int height;
+    @SerializedName("size")
+    public int size;
 }

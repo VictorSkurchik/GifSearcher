@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">GifSearcher</string>
     <string name="default_loading_gif">Press the button to load gifs!</string>
-    <string name="error_loading_gif">There seems to have some error</string>
+    <string name="error_message">There seems to have some error</string>
     <string name="image_description">image description</string>
 </resources>
