@@ -3,4 +3,6 @@
     <string name="default_loading_gif">Press the button to load gifs!</string>
     <string name="error_message">There seems to have some error</string>
     <string name="image_description">image description</string>
+    <string name="no_inet_connection">No internet connection</string>
+    <string name="no_matches_found">Sorry, no matches were found for your query</string>
 </resources>

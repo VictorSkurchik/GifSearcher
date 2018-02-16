@@ -1,8 +1,12 @@
 package com.victorskurchik.gifsearcher.viewmodel;
 
+import android.app.Activity;
 import android.content.Context;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.victorskurchik.gifsearcher.GifApplication;
@@ -57,6 +61,10 @@ public class GifViewModel extends Observable {
 
     public void fetchGifList(String queryUrl) {
 
+        if (!isNetworkConnected()) {
+            Snackbar.make(((Activity) context).getWindow().getDecorView(), R.string.no_inet_connection, Snackbar.LENGTH_LONG).show();
+        }
+
         GifApplication gifApplication = GifApplication.create(context);
         GifService gifService = gifApplication.getGifService();
 
@@ -66,11 +74,17 @@ public class GifViewModel extends Observable {
                 .subscribe(new Consumer<GifResponse>() {
                     @Override
                     public void accept(GifResponse gifResponse) throws Exception {
-                        changeGifsDataSet(gifResponse.getGifData());
-                        gifProgress.set(View.GONE);
-                        gifLabel.set(View.GONE);
-                        gifRecycler.set(View.VISIBLE);
-                        gifFab.set(View.VISIBLE);
+                        if (gifResponse.getGifData().size() == 0) {
+                            messageLabel.set(context.getString(R.string.no_matches_found));
+                            gifLabel.set(View.VISIBLE);
+                            gifRecycler.set(View.GONE);
+                        } else {
+                            changeGifsDataSet(gifResponse.getGifData());
+                            gifProgress.set(View.GONE);
+                            gifLabel.set(View.GONE);
+                            gifRecycler.set(View.VISIBLE);
+                            gifFab.set(View.VISIBLE);
+                        }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -114,4 +128,9 @@ public class GifViewModel extends Observable {
         context = null;
     }
 
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
+    }
 }
