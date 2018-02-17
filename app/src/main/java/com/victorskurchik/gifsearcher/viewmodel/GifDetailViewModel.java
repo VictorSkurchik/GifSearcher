@@ -1,5 +1,6 @@
 package com.victorskurchik.gifsearcher.viewmodel;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BindingAdapter;
@@ -26,19 +27,20 @@ public class GifDetailViewModel {
     }
 
     public String getGifUrl() {
-        return gifResult.images.original.url;
+        return gifResult.images.fixed_height.url;
     }
 
     public String getGifWidth() {
-        return "Width " + gifResult.images.original.width;
+        return "Width " + gifResult.images.fixed_height.width;
     }
 
     public String getGifHeight() {
-        return "Height " + gifResult.images.original.height;
+        return "Height " + gifResult.images.fixed_height.height;
     }
 
+    @SuppressLint("DefaultLocale")
     public String getGifSize() {
-        return String.format("Size %.2f Mb", convertToMb(gifResult.images.original.size));
+        return String.format("Size %.2f Mb", convertToMb(gifResult.images.fixed_height.size));
     }
 
     private double convertToMb(int bytes) {

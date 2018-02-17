@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.victorskurchik.gifsearcher.R;
 import com.victorskurchik.gifsearcher.data.GifFactory;
@@ -63,6 +64,8 @@ public class GifActivity extends AppCompatActivity implements Observer {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                gifViewModel.gifProgress.set(View.VISIBLE);
+                gifViewModel.gifRecycler.set(View.GONE);
                 gifViewModel.clearGifsDataSet();
                 gifViewModel.fetchGifList(GifFactory.getSearchGifsQueryUrl(query));
 

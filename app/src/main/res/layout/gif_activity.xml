@@ -23,21 +23,14 @@
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <ProgressBar
-                android:id="@+id/progress_gif"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:visibility="@{mainViewModel.gifProgress}" />
-
             <TextView
                 android:id="@+id/label_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="24sp"
                 android:layout_margin="@dimen/spacing_medium"
+                android:gravity="center"
                 android:text="@{mainViewModel.messageLabel}"
+                android:textSize="24sp"
                 app:visibility="@{mainViewModel.gifLabel}" />
 
             <android.support.v7.widget.RecyclerView
@@ -49,6 +42,13 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:visibility="@{mainViewModel.gifRecycler}"
                 tools:listitem="@layout/item_gif" />
+
+            <ProgressBar
+                android:id="@+id/progress_gif"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:visibility="@{mainViewModel.gifProgress}" />
 
         </LinearLayout>
 

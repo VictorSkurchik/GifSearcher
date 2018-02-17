@@ -9,7 +9,6 @@ public class GifResponse {
     @SerializedName("data")
     private List<GifResult> gifsDate;
 
-
     public List<GifResult> getGifData() {
         return gifsDate;
     }
