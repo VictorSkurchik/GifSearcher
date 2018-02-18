@@ -34,12 +34,14 @@ public class GifViewModel extends Observable {
     public ObservableField<String> messageLabel;
 
     private List<GifResult> gifList;
+    private List<GifResult> oldGifList;
     private Context context;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public GifViewModel(@NonNull Context context) {
         this.context = context;
         this.gifList = new ArrayList<>();
+        this.oldGifList = new ArrayList<>();
         gifProgress = new ObservableInt(View.GONE);
         gifRecycler = new ObservableInt(View.GONE);
         gifLabel = new ObservableInt(View.VISIBLE);
@@ -107,7 +109,14 @@ public class GifViewModel extends Observable {
     }
 
     public void clearGifsDataSet() {
+        oldGifList.addAll(gifList);
         gifList.clear();
+        setChanged();
+        notifyObservers();
+    }
+
+    public void revertGifsDataSet() {
+        gifList.addAll(oldGifList);
         setChanged();
         notifyObservers();
     }

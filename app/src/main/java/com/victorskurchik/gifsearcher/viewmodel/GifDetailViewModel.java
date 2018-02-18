@@ -43,7 +43,7 @@ public class GifDetailViewModel {
         return String.format("Size %.2f Mb", convertToMb(gifResult.images.fixed_height.size));
     }
 
-    private double convertToMb(int bytes) {
+    public static double convertToMb(int bytes) {
         return (double) bytes / (1024L * 1024L);
     }
 

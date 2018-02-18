@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +29,17 @@ public class GifActivity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
 
         initDataBinding();
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("GifSearcher");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gifViewModel.revertGifsDataSet();
+            }
+        });
+
         setupListGifView(gifActivityBinding.listGif);
         setupObserver(gifViewModel);
     }
@@ -37,7 +49,6 @@ public class GifActivity extends AppCompatActivity implements Observer {
         gifViewModel = new GifViewModel(this);
         gifActivityBinding.setMainViewModel(gifViewModel);
     }
-
 
     private void setupListGifView(RecyclerView recyclerView) {
         GifAdapter adapter = new GifAdapter();
@@ -83,9 +94,12 @@ public class GifActivity extends AppCompatActivity implements Observer {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_search) {
-//            gifViewModel.gifFab.set(View.GONE);
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                return true;
+            case android.R.id.home:
+                gifViewModel.revertGifsDataSet();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
