@@ -16,6 +16,7 @@ To build a debug version of your Android application, you can run `./gradlew ass
 * [Glide](https://bumptech.github.io/glide/)
 * [Retrofit 2](http://square.github.io/retrofit/)
 * [RxJava & RxAndroid](https://github.com/ReactiveX/RxAndroid)
+* [JUnit & Mockito](http://site.mockito.org/)
 
 ## API Reference
 The app requires a version of android API 17 and above.
